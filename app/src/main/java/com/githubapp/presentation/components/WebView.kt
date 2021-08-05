@@ -12,6 +12,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import android.webkit.WebView
+import androidx.compose.ui.Alignment
 import androidx.navigation.NavController
 import com.githubapp.CircularProgressBarAnimation
 
@@ -19,7 +20,6 @@ import com.githubapp.CircularProgressBarAnimation
 fun WebView(
     navController: NavController,
     url: String?,
-    author: String,
 ) {
     Scaffold(
         content = {
@@ -33,7 +33,7 @@ fun WebView(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     IconButton(
-                        onClick = { navController.popBackStack("webview/{url}", inclusive = true) } ,
+                        onClick = { navController.popBackStack("webview/{url}", inclusive = true) },
                         modifier = Modifier
                             .padding(8.dp)
                             .size(30.dp)
@@ -43,21 +43,19 @@ fun WebView(
                             contentDescription = "",
                         )
                     }
-                    Column{
-                        Text(
-                            author,
-                            fontWeight = FontWeight.W600
-                        )
-                        Text(
-                            "Repositories",
-                            style = MaterialTheme.typography.body2
-                        )
-                    }
+                    Text(
+                        "Repository",
+                        fontWeight = FontWeight.W600,
+                        modifier = Modifier
+                            .align(Alignment.CenterVertically)
+                            .padding(bottom = 4.dp)
+                    )
                 }
             }
         }
     )
 }
+
 @Composable
 fun View(
     url: String?
@@ -66,7 +64,7 @@ fun View(
 
     Column(modifier = Modifier.fillMaxHeight()) {
         AndroidView({ context ->
-            val webView = WebView(context).apply{
+            val webView = WebView(context).apply {
                 ViewGroup.LayoutParams.MATCH_PARENT
                 ViewGroup.LayoutParams.MATCH_PARENT
             }

@@ -1,9 +1,11 @@
 package com.githubapp.di
 
+import com.githubapp.db.DownloadDao
 import com.githubapp.network.model.GithubDtoMapper
 import com.githubapp.repository.GithubRepository
 import com.githubapp.repository.GithubRepositoy_Impl
 import com.githubapp.network.GithubService
+import com.githubapp.repository.DownloadRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,4 +27,8 @@ object RepositoryModule {
             mapper = githubDtoMapper,
         )
     }
+
+    @Singleton
+    @Provides
+    fun providesDownloadRepository(downloadDao: DownloadDao) : DownloadRepository = DownloadRepository(downloadDao)
 }
