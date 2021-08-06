@@ -12,7 +12,7 @@ import retrofit2.http.Url
 interface GithubService {
     @GET("users/{user}/repos")
     suspend fun search(
-        @Header("Authorization") access_token: String,
+    //    @Header("Authorization") access_token: String,
         @Path("user")  user: String,
     ): List<GithubDto>
 }

@@ -15,6 +15,7 @@ import com.githubapp.repository.GithubRepository
 import com.githubapp.util.ConnManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import retrofit2.HttpException
@@ -24,7 +25,7 @@ import javax.inject.Named
 @HiltViewModel
 class GithubViewModel @Inject constructor(
     private val repository: GithubRepository,
-    @Named("access_token") private val access_token: String,
+    //   @Named("access_token") private val access_token: String,
     private var connectivityManager: ConnManager,
     private val downloadRepository: DownloadRepository
 ) : ViewModel() {
@@ -39,11 +40,11 @@ class GithubViewModel @Inject constructor(
                 loading.value = true
                 try {
                     val result = repository.search(
-                        access_token = access_token,
+                     //   access_token = access_token,
                         userName = name,
                     )
                     repositories.value = result
-
+                    delay(2000)
                 } catch (e: HttpException) {
                     repositories.value = emptyList()
                 }
@@ -54,7 +55,6 @@ class GithubViewModel @Inject constructor(
 
     fun downloading(context: Context, author: String, repoName: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            var downloadId: Long = 0
             val request = DownloadManager.Request(
                 Uri.parse("https://api.github.com/repos/${author}/${repoName}/zipball/master")
             )
@@ -64,7 +64,7 @@ class GithubViewModel @Inject constructor(
                 .setAllowedOverMetered(true)
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, repoName)
             val dm = context.getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-            downloadId = dm.enqueue(request)
+            dm.enqueue(request)
 
         }
     }
@@ -76,12 +76,14 @@ class GithubViewModel @Inject constructor(
     private fun insert(item: Download) = runBlocking {
         downloadRepository.insert(item)
     }
-    fun insertD(author: String, repoName: String, description: String) {
+    fun insertD(author: String, repoName: String, description: String?, language: String?, date: String) {
         if (author.isNotEmpty() && repoName.isNotEmpty()) {
             val download = Download(
                 author = author,
                 repoName = repoName,
-                description = description
+                description = description,
+                language = language,
+                date = date
             )
             insert(download)
         }

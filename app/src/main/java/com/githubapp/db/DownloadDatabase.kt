@@ -1,9 +1,8 @@
 package com.githubapp.db
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 
 
 @Database(entities = [Download::class], version = 1)

@@ -13,9 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
+import com.githubapp.presentation.DownloadScreen
 import com.githubapp.presentation.SearchResults
 import com.githubapp.presentation.SearchScreen
-import com.githubapp.presentation.components.Downloading
 import com.githubapp.presentation.components.SlideLeftAnimation
 import com.githubapp.presentation.components.WebView
 import com.githubapp.ui.theme.GitHubAppTheme
@@ -94,22 +94,18 @@ class MainActivity : AppCompatActivity() {
                                 )
                             }
                         }
-//                        composable(
-//                            "download/{owner}/{repo}",
-//                            arguments = listOf(
-//                                navArgument("owner") { type = NavType.StringType },
-//                                navArgument("repo") { type = NavType.StringType }
-//                            ),
-//                        ) { navBackStackEntry ->
-//                            WebView(
-//                                url = navBackStackEntry.arguments?.getString("owner")!! + navBackStackEntry.arguments?.getString("repo")!!,
-//                                navController = navController
-//                            )
-//                        }
+                        composable("download_screen") {
+                            SlideLeftAnimation {
+                                DownloadScreen(
+                                    navController = navController
+                                )
+                            }
+                        }
                     }
                 }
             }
         }
+
     }
 }
 

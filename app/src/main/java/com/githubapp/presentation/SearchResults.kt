@@ -1,5 +1,6 @@
 package com.githubapp.presentation
 
+import android.os.Build
 import android.os.Environment
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -7,10 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ChevronLeft
-import androidx.compose.material.icons.filled.FileDownload
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Web
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +21,8 @@ import com.githubapp.CircularProgressBarAnimation
 import com.githubapp.domain.model.GithubRepo
 import java.io.File
 import java.net.URLEncoder
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 @Composable
@@ -36,10 +36,9 @@ fun SearchResults(
     githubViewModel.newSearch(name)
     val items = githubViewModel.repositories.value
     if (items.isEmpty()) {
-
         Scaffold(
             content = {
-                if(isNetworkAvailable) {
+                if (isNetworkAvailable) {
                     NotValidWithDownloading(githubViewModel = githubViewModel)
                 } else {
                     NoInternet()
@@ -80,7 +79,7 @@ fun SearchResults(
 fun Repo(
     item: GithubRepo,
     navController: NavController,
-    author: String
+    author: String,
 ) {
     Card(
         modifier = Modifier
@@ -150,6 +149,15 @@ fun Repo(
                                     .show()
                             } else {
                                 githubViewModel.downloading(context, author, item.name)
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                    githubViewModel.insertD(
+                                        author = author,
+                                        repoName = item.name,
+                                        description = item.description,
+                                        language = item.language,
+                                        date = SimpleDateFormat("MM.dd", Locale.getDefault()).format(Date())
+                                    )
+                                }
                             }
                         },
                         modifier = Modifier.padding(top = 8.dp)
@@ -214,32 +222,48 @@ fun AppBar(
 ) {
     Row(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
 
     ) {
-        IconButton(
-            onClick = {
-                navController.popBackStack(
-                    "search_screen",
-                    inclusive = false
+            Row() {
+            IconButton(
+                onClick = {
+                    navController.popBackStack(
+                        "search_screen",
+                        inclusive = false
+                    )
+                },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(30.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.ChevronLeft,
+                    contentDescription = "",
                 )
-            },
-            modifier = Modifier
-                .padding(8.dp)
-                .size(30.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.ChevronLeft,
-                contentDescription = "",
+            }
+            Text(
+                "$name Repositories",
+                fontWeight = FontWeight.W600,
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(bottom = 4.dp)
             )
         }
-        Text(
-            "$name Repositories",
-            fontWeight = FontWeight.W600,
-            modifier = Modifier
-                .align(Alignment.CenterVertically)
-                .padding(bottom = 4.dp)
-        )
+        Box() {
+            IconButton(
+                onClick = { navController.navigate("download_screen") },
+                modifier = Modifier
+                    .padding(8.dp)
+                    .size(30.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Folder,
+                    contentDescription = "",
+                )
+            }
+        }
     }
 }
 

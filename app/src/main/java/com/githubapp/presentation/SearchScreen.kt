@@ -34,68 +34,75 @@ fun SearchScreen(
     var search by rememberSaveable { mutableStateOf("") }
     val context = LocalContext.current
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
+    Surface(color = MaterialTheme.colors.background) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.Black.copy(alpha = 0.3f))
-        )
-        Card(
-            modifier = Modifier
-                .align(Alignment.Center),
-            shape = MaterialTheme.shapes.small
         ) {
-            Column() {
-                val keyboardController = LocalSoftwareKeyboardController.current
-                Icon(
-                    Icons.Default.Search,
-                    contentDescription = "",
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(top = 16.dp)
-                        .size(36.dp),
-                    tint = Color.White.copy(0.7f)
-                )
-                OutlinedTextField(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .align(Alignment.CenterHorizontally),
-                    value = search,
-                    onValueChange = { search = it },
-                    label = {
-                        Text(text = "Login")
-                    },
-                    keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Text,
-                        imeAction = ImeAction.Go
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onGo = {
-                            keyboardController?.hide()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black.copy(alpha = 0.3f))
+            )
+            Card(
+                modifier = Modifier
+                    .align(Alignment.Center),
+                shape = MaterialTheme.shapes.small
+            ) {
+                Column() {
+                    val keyboardController = LocalSoftwareKeyboardController.current
+                    Icon(
+                        Icons.Default.Search,
+                        contentDescription = "",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(top = 16.dp)
+                            .size(36.dp),
+                        tint = Color.White.copy(0.7f)
+                    )
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .padding(16.dp)
+                            .align(Alignment.CenterHorizontally),
+                        value = search,
+                        onValueChange = { search = it },
+                        label = {
+                            Text(text = "Login")
+                        },
+                        keyboardOptions = KeyboardOptions(
+                            keyboardType = KeyboardType.Text,
+                            imeAction = ImeAction.Go
+                        ),
+                        keyboardActions = KeyboardActions(
+                            onGo = {
+                                keyboardController?.hide()
+                                if (search != "") {
+                                    navController.navigate("search_results/${search}")
+                                } else {
+                                    Toast.makeText(
+                                        context,
+                                        "Please write login",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                        )
+                    )
+                    Button(
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .padding(16.dp),
+                        onClick = {
                             if (search != "") {
                                 navController.navigate("search_results/${search}")
                             } else {
-                                Toast.makeText(context, "Please write login", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(context, "Please write login", Toast.LENGTH_SHORT)
+                                    .show()
                             }
-                        }
-                    )
-                )
-                Button(
-                    modifier = Modifier
-                        .align(Alignment.CenterHorizontally)
-                        .padding(16.dp),
-                    onClick = {
-                        if (search != "") {
-                            navController.navigate("search_results/${search}")
-                        } else {
-                            Toast.makeText(context, "Please write login", Toast.LENGTH_SHORT).show()
-                        }
-                    },
-                ) {
-                    Text("Search")
+                        },
+                    ) {
+                        Text("Search")
+                    }
                 }
             }
         }
