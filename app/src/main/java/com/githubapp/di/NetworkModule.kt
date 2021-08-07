@@ -1,6 +1,5 @@
 package com.githubapp.di
 
-import android.util.Log
 import com.githubapp.network.model.GithubDtoMapper
 import com.githubapp.network.GithubService
 import com.google.gson.GsonBuilder
@@ -8,7 +7,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.HttpException
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named

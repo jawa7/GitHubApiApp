@@ -3,6 +3,8 @@ package com.githubapp.presentation
 import android.os.Build
 import android.os.Environment
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -12,12 +14,15 @@ import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.githubapp.CircularProgressBarAnimation
+import com.githubapp.R
+import com.githubapp.presentation.components.CircularProgressBarAnimation
 import com.githubapp.domain.model.GithubRepo
 import java.io.File
 import java.net.URLEncoder
@@ -33,6 +38,7 @@ fun SearchResults(
 
 ) {
     val githubViewModel: GithubViewModel = hiltViewModel()
+    val darkTheme: Boolean = isSystemInDarkTheme()
     githubViewModel.newSearch(name)
     val items = githubViewModel.repositories.value
     if (items.isEmpty()) {
@@ -53,17 +59,35 @@ fun SearchResults(
     } else {
         Scaffold(
             content = {
-                LazyColumn() {
-                    itemsIndexed(
-                        items = items
-                    ) { index, item ->
-                        Repo(
-                            item = item,
-                            navController = navController,
-                            author = name,
-                        )
+                if (darkTheme) {
+                    LazyColumn(
+                    ) {
+                        itemsIndexed(
+                            items = items
+                        ) { index, item ->
+                            Repo(
+                                item = item,
+                                navController = navController,
+                                author = name,
+                            )
+                        }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.background(Color.Black.copy(0.1f))
+                    ) {
+                        itemsIndexed(
+                            items = items
+                        ) { index, item ->
+                            Repo(
+                                item = item,
+                                navController = navController,
+                                author = name,
+                            )
+                        }
                     }
                 }
+
             },
             topBar = {
                 TopAppBar {
@@ -84,7 +108,8 @@ fun Repo(
     Card(
         modifier = Modifier
             .padding(top = 8.dp, bottom = 8.dp, end = 12.dp, start = 12.dp)
-            .fillMaxWidth()
+            .fillMaxWidth(),
+        elevation = 4.dp
     ) {
         Column(
             modifier = Modifier.padding(horizontal = 8.dp)
@@ -121,7 +146,7 @@ fun Repo(
 
             if (item.description == null) {
                 Text(
-                    text = "No description",
+                    text = stringResource(R.string.no_description),
                     modifier = Modifier.padding(end = 8.dp, start = 8.dp, top = 6.dp),
                     style = MaterialTheme.typography.body2
                 )
@@ -145,7 +170,7 @@ fun Repo(
                             val path: File =
                                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + File.separator + item.name + ".zip")
                             if (path.isFile) {
-                                Toast.makeText(context, "${item.name} exists", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, item.name + R.string.exists, Toast.LENGTH_SHORT)
                                     .show()
                             } else {
                                 githubViewModel.downloading(context, author, item.name)
@@ -189,7 +214,7 @@ fun Repo(
                     )
                     if (item.language == null) {
                         Text(
-                            text = "Unknown language",
+                            text = stringResource(R.string.unknown_language),
                             modifier = Modifier.padding(
                                 end = 8.dp,
                                 start = 12.dp,
@@ -244,7 +269,7 @@ fun AppBar(
                 )
             }
             Text(
-                "$name Repositories",
+                name + stringResource(R.string.repositories),
                 fontWeight = FontWeight.W600,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
@@ -278,7 +303,7 @@ fun NotValidWithDownloading(
         if (!githubViewModel.loading.value) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = "Login is not valid"
+                text = stringResource(R.string.login_is_not_valid)
             )
         }
     }
@@ -291,7 +316,7 @@ fun NoInternet() {
     ) {
         Text(
             modifier = Modifier.align(Alignment.Center),
-            text = "No Internet Connection"
+            text = stringResource(R.string.no_internet_connection)
         )
     }
 }

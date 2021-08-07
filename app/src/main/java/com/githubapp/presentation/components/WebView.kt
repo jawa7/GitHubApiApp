@@ -13,8 +13,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import android.webkit.WebView
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
-import com.githubapp.CircularProgressBarAnimation
+import com.githubapp.R
 
 @Composable
 fun WebView(
@@ -44,7 +45,7 @@ fun WebView(
                         )
                     }
                     Text(
-                        "Repository",
+                        stringResource(R.string.repository),
                         fontWeight = FontWeight.W600,
                         modifier = Modifier
                             .align(Alignment.CenterVertically)

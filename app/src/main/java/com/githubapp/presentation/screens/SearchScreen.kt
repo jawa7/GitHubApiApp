@@ -21,10 +21,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.githubapp.R
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
@@ -47,7 +49,8 @@ fun SearchScreen(
             Card(
                 modifier = Modifier
                     .align(Alignment.Center),
-                shape = MaterialTheme.shapes.small
+                shape = MaterialTheme.shapes.small,
+                elevation = 8.dp
             ) {
                 Column() {
                     val keyboardController = LocalSoftwareKeyboardController.current
@@ -58,7 +61,7 @@ fun SearchScreen(
                             .align(Alignment.CenterHorizontally)
                             .padding(top = 16.dp)
                             .size(36.dp),
-                        tint = Color.White.copy(0.7f)
+                        tint = MaterialTheme.colors.primary.copy(0.8f)
                     )
                     OutlinedTextField(
                         modifier = Modifier
@@ -67,7 +70,7 @@ fun SearchScreen(
                         value = search,
                         onValueChange = { search = it },
                         label = {
-                            Text(text = "Login")
+                            Text(text = stringResource(R.string.name))
                         },
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.Text,
@@ -81,7 +84,7 @@ fun SearchScreen(
                                 } else {
                                     Toast.makeText(
                                         context,
-                                        "Please write login",
+                                        R.string.please_write_name,
                                         Toast.LENGTH_SHORT
                                     ).show()
                                 }
@@ -96,12 +99,12 @@ fun SearchScreen(
                             if (search != "") {
                                 navController.navigate("search_results/${search}")
                             } else {
-                                Toast.makeText(context, "Please write login", Toast.LENGTH_SHORT)
+                                Toast.makeText(context, R.string.please_write_name, Toast.LENGTH_SHORT)
                                     .show()
                             }
                         },
                     ) {
-                        Text("Search")
+                        Text(stringResource(R.string.search))
                     }
                 }
             }

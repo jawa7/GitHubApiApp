@@ -5,22 +5,23 @@ import android.content.Context
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.navigation.NavType
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
+import com.google.accompanist.navigation.animation.composable
 import androidx.navigation.compose.navArgument
-import androidx.navigation.compose.rememberNavController
-import com.githubapp.presentation.DownloadScreen
+import com.githubapp.presentation.screens.DownloadScreen
 import com.githubapp.presentation.SearchResults
 import com.githubapp.presentation.SearchScreen
-import com.githubapp.presentation.components.SlideLeftAnimation
 import com.githubapp.presentation.components.WebView
 import com.githubapp.ui.theme.GitHubAppTheme
 import com.githubapp.util.ConnManager
 import com.githubapp.util.ConnectionLiveData
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -51,15 +52,33 @@ class MainActivity : AppCompatActivity() {
         connectionLiveData = ConnectionLiveData(this)
         setContent {
             GitHubAppTheme {
-                val navController = rememberNavController()
+                val navController = rememberAnimatedNavController()
                 var dm = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 Surface(color = MaterialTheme.colors.background) {
-                    NavHost(
+                    AnimatedNavHost(
                         navController = navController,
                         startDestination = "search_screen",
                     ) {
                         composable(
                             "search_screen",
+                            exitTransition = { _,_ ->
+                                slideOutHorizontally(
+                                    targetOffsetX = {-300},
+                                    animationSpec = tween(
+                                        durationMillis = 300,
+                                        easing = FastOutSlowInEasing
+                                    )
+                                ) + fadeOut(animationSpec = tween(300))
+                            },
+                            popEnterTransition = {_,_ ->
+                                slideInHorizontally(
+                                    initialOffsetX = {-300},
+                                    animationSpec = tween(
+                                        durationMillis = 300,
+                                        easing = FastOutSlowInEasing
+                                    )
+                                ) + fadeIn(animationSpec = tween(300))
+                            }
                         ) {
                             SearchScreen(
                                 navController = navController
@@ -69,10 +88,27 @@ class MainActivity : AppCompatActivity() {
                             "search_results/{name}",
                             arguments = listOf(
                                 navArgument("name") { type = NavType.StringType }
-                            )
+                            ),
+                            enterTransition = { _,_ ->
+                                slideInHorizontally(
+                                    initialOffsetX = {-300},
+                                    animationSpec = tween(
+                                        durationMillis = 300,
+                                        easing = FastOutSlowInEasing
+                                    )
+                                ) + fadeIn(animationSpec = tween(300))
+                            },
+                            popExitTransition = {_,_ ->
+                                slideOutHorizontally(
+                                    targetOffsetX = {300},
+                                    animationSpec = tween(
+                                        durationMillis = 300,
+                                        easing = FastOutSlowInEasing
+                                    )
+                                ) + fadeOut(animationSpec = tween(300))
+                            }
                         ) { navBackStackEntry ->
                             navBackStackEntry.arguments?.getString("name")?.let {
-                                SlideLeftAnimation {
                                     SearchResults(
                                         navController = navController,
                                         name = it,
@@ -80,22 +116,20 @@ class MainActivity : AppCompatActivity() {
                                     )
                                 }
                             }
-                        }
+
                         composable(
                             "webview/{url}",
                             arguments = listOf(
                                 navArgument("url") { type = NavType.StringType },
                             )
                         ) { navBackStackEntry ->
-                            SlideLeftAnimation {
                                 WebView(
                                     navController = navController,
                                     url = navBackStackEntry.arguments?.getString("url")
                                 )
                             }
-                        }
+
                         composable("download_screen") {
-                            SlideLeftAnimation {
                                 DownloadScreen(
                                     navController = navController
                                 )
@@ -104,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-        }
+
 
     }
 }

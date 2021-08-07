@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GitHubApiApp</string>
+    <string name="repository">Репозиторий</string>
+    <string name="repositories">Репозиторий</string>
+    <string name="no_description">Нет описания</string>
+    <string name="unknown_language">Нет языка программирования</string>
+    <string name="downloads">Загрузки</string>
+    <string name="exists">существует</string>
+    <string name="login_is_not_valid">Автор не найден</string>
+    <string name="no_internet_connection">Нет интернет соединения</string>
+    <string name="name">Имя автора</string>
+    <string name="please_write_name">Пожалуйста, напишите имя</string>
+    <string name="search">Найти</string>
+</resources>

@@ -13,11 +13,4 @@ class DownloadRepository(private val downloadDao: DownloadDao) {
     suspend fun insert(item: Download) {
         downloadDao.insert(item)
     }
-
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun update(item: Download) {
-        downloadDao.update(item)
-    }
-
 }

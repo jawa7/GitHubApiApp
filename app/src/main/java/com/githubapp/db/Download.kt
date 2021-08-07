@@ -3,7 +3,6 @@ package com.githubapp.db
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "download_table")
 data class Download(

@@ -3,9 +3,7 @@ package com.githubapp.repository
 import com.githubapp.network.model.GithubDtoMapper
 import com.githubapp.domain.model.GithubRepo
 import com.githubapp.network.GithubService
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
+
 
 class GithubRepositoy_Impl (
     private val githubService: GithubService,
