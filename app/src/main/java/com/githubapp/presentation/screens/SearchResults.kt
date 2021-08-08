@@ -38,9 +38,18 @@ fun SearchResults(
 
 ) {
     val githubViewModel: GithubViewModel = hiltViewModel()
+
     val darkTheme: Boolean = isSystemInDarkTheme()
-    githubViewModel.newSearch(name)
+
     val items = githubViewModel.repositories.value
+
+    if (items.isEmpty()) {
+        githubViewModel.newSearch(name)
+    }
+
+    val page = githubViewModel.page.value
+
+
     if (items.isEmpty()) {
         Scaffold(
             content = {
@@ -65,6 +74,10 @@ fun SearchResults(
                         itemsIndexed(
                             items = items
                         ) { index, item ->
+                            githubViewModel.onChangeScrollPosition(index)
+                            if((index + 1) >= (page * PAGE_SIZE)) {
+                                githubViewModel.nextPage(name)
+                            }
                             Repo(
                                 item = item,
                                 navController = navController,
@@ -79,6 +92,10 @@ fun SearchResults(
                         itemsIndexed(
                             items = items
                         ) { index, item ->
+                             githubViewModel.onChangeScrollPosition(index)
+                            if((index + 1) >= (page * PAGE_SIZE)) {
+                                githubViewModel.nextPage(name)
+                            }
                             Repo(
                                 item = item,
                                 navController = navController,
@@ -269,7 +286,7 @@ fun AppBar(
                 )
             }
             Text(
-                name + stringResource(R.string.repositories),
+                name + " " + stringResource(R.string.repositories),
                 fontWeight = FontWeight.W600,
                 modifier = Modifier
                     .align(Alignment.CenterVertically)

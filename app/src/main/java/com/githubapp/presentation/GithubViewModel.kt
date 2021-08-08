@@ -4,6 +4,7 @@ import android.app.DownloadManager
 import android.content.Context
 import android.net.Uri
 import android.os.Environment
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,8 @@ import retrofit2.HttpException
 import javax.inject.Inject
 import javax.inject.Named
 
+const val PAGE_SIZE = 30
+
 @HiltViewModel
 class GithubViewModel @Inject constructor(
     private val repository: GithubRepository,
@@ -30,8 +33,11 @@ class GithubViewModel @Inject constructor(
     private val downloadRepository: DownloadRepository
 ) : ViewModel() {
 
-    val repositories: MutableState<List<GithubRepo>> = mutableStateOf(listOf())
+    val repositories: MutableState<List<GithubRepo>> = mutableStateOf(ArrayList())
     val loading = mutableStateOf(false)
+    val page = mutableStateOf(1)
+    var scrollPosition = 0
+
 
     fun newSearch(name: String) {
         if (connectivityManager.isNetworkAvailable.value) {
@@ -40,8 +46,9 @@ class GithubViewModel @Inject constructor(
                 loading.value = true
                 try {
                     val result = repository.search(
-                     //   access_token = access_token,
+                    //    access_token = access_token,
                         userName = name,
+                        page = 1,
                     )
                     repositories.value = result
                     delay(2000)
@@ -51,6 +58,41 @@ class GithubViewModel @Inject constructor(
                 loading.value = false
             }
         }
+    }
+
+    fun nextPage(name: String) {
+        viewModelScope.launch {
+            Log.d("MainActivity", "nextPage: ${scrollPosition}")
+            if ((scrollPosition + 1) >= (page.value * PAGE_SIZE)) {
+                loading.value = true
+                incrementPage()
+                Log.d("MainActivity", "nextPage: triggered ${page.value}")
+                delay(1000)
+                if(page.value > 1) {
+                    val result = repository.search(
+                        userName = name,
+                        page = page.value,
+                    //    access_token = access_token
+                    )
+                    appendRepos(result)
+                }
+                loading.value = false
+            }
+        }
+    }
+
+    private fun appendRepos(repos: List<GithubRepo>){
+        val current = ArrayList(this.repositories.value)
+        current.addAll(repos)
+        repositories.value = current
+    }
+
+    private fun incrementPage() {
+        page.value = page.value + 1
+    }
+
+    fun onChangeScrollPosition(position: Int) {
+        scrollPosition = position
     }
 
     fun downloading(context: Context, author: String, repoName: String) {

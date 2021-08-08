@@ -10,12 +10,12 @@ class GithubRepositoy_Impl (
     private val mapper: GithubDtoMapper,
 ): GithubRepository {
 
-//    override suspend fun search(access_token: String, userName: String): List<GithubRepo> {
-//        return mapper.toDomainList(githubService.search(access_token, userName))
+//    override suspend fun search(userName: String, page: Int, access_token: String): List<GithubRepo> {
+//        return mapper.toDomainList(githubService.search(user = userName, page = page, access_token = access_token))
 //    }
 
-    override suspend fun search(userName: String): List<GithubRepo> {
-        return mapper.toDomainList(githubService.search(userName))
+    override suspend fun search(userName: String, page: Int, ): List<GithubRepo> {
+        return mapper.toDomainList(githubService.search(user = userName, page = page))
     }
 
     }

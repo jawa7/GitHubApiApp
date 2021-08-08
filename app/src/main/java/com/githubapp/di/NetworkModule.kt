@@ -36,6 +36,6 @@ object NetworkModule {
     @Provides
     @Named("access_token")
     fun provideAccessToken(): String {
-        return "token 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"
+        return "token "
     }
 }
