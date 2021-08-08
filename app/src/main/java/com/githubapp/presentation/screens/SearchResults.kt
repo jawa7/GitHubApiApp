@@ -70,12 +70,13 @@ fun SearchResults(
             content = {
                 if (darkTheme) {
                     LazyColumn(
+
                     ) {
                         itemsIndexed(
                             items = items
                         ) { index, item ->
                             githubViewModel.onChangeScrollPosition(index)
-                            if((index + 1) >= (page * PAGE_SIZE)) {
+                            if ((index + 1) >= (page * PAGE_SIZE)) {
                                 githubViewModel.nextPage(name)
                             }
                             Repo(
@@ -87,13 +88,15 @@ fun SearchResults(
                     }
                 } else {
                     LazyColumn(
-                        modifier = Modifier.background(Color.Black.copy(0.1f))
+                        modifier = Modifier
+                            .background(Color.Black.copy(0.1f))
+                            .fillMaxSize()
                     ) {
                         itemsIndexed(
                             items = items
                         ) { index, item ->
-                             githubViewModel.onChangeScrollPosition(index)
-                            if((index + 1) >= (page * PAGE_SIZE)) {
+                            githubViewModel.onChangeScrollPosition(index)
+                            if ((index + 1) >= (page * PAGE_SIZE)) {
                                 githubViewModel.nextPage(name)
                             }
                             Repo(
@@ -187,7 +190,11 @@ fun Repo(
                             val path: File =
                                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS + File.separator + item.name + ".zip")
                             if (path.isFile) {
-                                Toast.makeText(context, item.name + R.string.exists, Toast.LENGTH_SHORT)
+                                Toast.makeText(
+                                    context,
+                                    item.name + R.string.exists,
+                                    Toast.LENGTH_SHORT
+                                )
                                     .show()
                             } else {
                                 githubViewModel.downloading(context, author, item.name)
@@ -197,7 +204,10 @@ fun Repo(
                                         repoName = item.name,
                                         description = item.description,
                                         language = item.language,
-                                        date = SimpleDateFormat("MM.dd", Locale.getDefault()).format(Date())
+                                        date = SimpleDateFormat(
+                                            "MM.dd",
+                                            Locale.getDefault()
+                                        ).format(Date())
                                     )
                                 }
                             }
@@ -268,7 +278,7 @@ fun AppBar(
         horizontalArrangement = Arrangement.SpaceBetween
 
     ) {
-            Row() {
+        Row() {
             IconButton(
                 onClick = {
                     navController.popBackStack(
