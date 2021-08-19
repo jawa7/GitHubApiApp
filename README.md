@@ -4,19 +4,17 @@ Have feature to see repository in browser using WebView.
 English and Russian translations
 
 Light Theme
-![Screenshot_20210808-165750_GitHubApiApp](https://user-images.githubusercontent.com/60844212/130086411-1579cc24-044a-4c1f-b04b-f866ea124764.jpg)
 
 <p align="center">
-  <img src=![Screenshot_20210808-165750_GitHubApiApp](https://user-images.githubusercontent.com/60844212/130086411-1579cc24-044a-4c1f-b04b-f866ea124764.jpg)
- width="250">
-  <img src="https://psv4.userapi.com/c505536/u117496133/docs/d20/b19e3254ebbd/Screenshot_20210808-165745_GitHubApiApp.jpg?extra=ssReL1GS3FTLZhtHRHZiklgYjIBzpY1LDAa5yqPc8Pe_5a3eqwK3ZjfmyvKxdK9Fw6R96YIns2ZwaFgzpKKwAPumclX6RzIhoCxKTsErDikwWCTLruXnp4ypc7VmJSQpYd2I6DOO0WgoTTiGrXztAWG8oQ" width="250" alt="accessibility text">
-  <img src="https://psv4.userapi.com/c536436/u117496133/docs/d26/346568fbf2e8/Screenshot_20210808-165750_GitHubApiApp.jpg?extra=M2IxGaWhC7CS5OkYuobdcB9QYnGenbfJff1oA6SG6qjcydryiptABSOf3QqUVQCOJGq_8uMI3kwMpiZTL2T2zl5rfiJBXUIHKBmlRkcC1GJbu-g1sqWvGhSASv0fg99JQOAnntr6xluFleGrNixBgldlyg" width="250" alt="accessibility text">
+  <img src="https://user-images.githubusercontent.com/60844212/130086411-1579cc24-044a-4c1f-b04b-f866ea124764.jpg" width="250">
+  <img src="https://user-images.githubusercontent.com/60844212/130087023-16e7dba4-5200-4589-ac9b-62405c38b77f.jpg" width="250">
+  <img src="https://user-images.githubusercontent.com/60844212/130087037-7413ddcd-d658-47c0-a2ce-d8d25db5b842.jpg" width="250">
 </p>
 
 Dark Theme
 
 <p align="center">
-  <img src="https://psv4.userapi.com/c536436/u117496133/docs/d12/ddcd2ad23bc2/Screenshot_20210808-165451_GitHubApiApp.jpg?extra=PcWVnCnysDGqAJ3ssDfwMbw64GgD4C39yM1maX5f_ibC_RYhcYDF5U1dPpyxHTUDGcrrJsX3zGraP0tO8AB-pQgJvIzEp89yuYXhfXM2xVVILHv3g3sF53gp5XqfuAtsDBMhIZouqKioqs1gXXRq8Cqpdg" width="250">
-  <img src="https://psv4.userapi.com/c532036/u117496133/docs/d29/4ccec575e920/Screenshot_20210808-165525_GitHubApiApp.jpg?extra=yyOocBWuRfWAOQd2qI8gpscZTdqxEziGecRqgRLaoruDvkw8V4a02RhFzhOvn6ukvDGE3HLCCp86nesV2pfEir1-rldchQ0O1EbAuGWFuGRtwAENzfSfrMpnezqAQiZ2GqVvFsCSwHzBdOpTJfhsukTpRA" width="250" alt="accessibility text">
-  <img src="https://psv4.userapi.com/c536436/u117496133/docs/d49/3381dd936a0d/Screenshot_20210808-165703_GitHubApiApp.jpg?extra=S453S2TWj45fOrWzKWI_DU4gZbyd4nS3qWQCITtBJ0uwWXNWJKOkx5jTlXqQ5HWgX_RWdDLqfr6le4AHQEeaUhjvDha9x56LMy9rqTcP_O_kvWf_P6buYYJCfY8PbvW2uipLEnXwCf0iv7TANiEVssSLOA" width="250" alt="accessibility text">
+  <img src="https://user-images.githubusercontent.com/60844212/130087232-75eb9a31-33f6-40c6-ba7d-c6468555a81e.jpg" width="250">
+  <img src="https://user-images.githubusercontent.com/60844212/130087237-79ea1143-6602-48b4-ba63-4ee0aff245ba.jpg" width="250">
+  <img src="https://user-images.githubusercontent.com/60844212/130087247-e91c1937-c74d-48b4-9e2a-e57173676d48.jpg" width="250">
 </p>
